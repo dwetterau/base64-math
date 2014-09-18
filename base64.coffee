@@ -3,7 +3,7 @@ constants = require './constants'
 module.exports =
   toNumber: (base_64) ->
     num = 0
-    for i in [0..base_64.length]
+    for i in [0..base_64.length].reverse()
       num <<= 6
       num |= constants.base_to_num_map[base_64.charAt(i)]
     return num
@@ -12,7 +12,10 @@ module.exports =
     base_64 = ''
     while num > 0
       base_64 += constants.num_to_base_map[num & 63]
-      num >> 6
+      num >>= 6
+    if base_64.length == 0 and num == 0
+      return constants.num_to_base_map[0]
+
     return base_64
 
   # Adds two base 64 number strings and returns the answer in base 64
