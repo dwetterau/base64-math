@@ -18,24 +18,24 @@ module.exports =
     return map
   )()
 
+  # A lookup map to use when shifting a base64 string to the right
+  right_shift_map: (() ->
+    right_map = {}
+    for i in [0..63]
+      right_map[num_to_base_map[i]] =
+        val: num_to_base_map[i >> 1]
+        carry_val: num_to_base_map[(i >> 1) | (1 << 5)]
+        makes_carry: Boolean(i & 1)
+    return right_map
+  )()
+
   # A lookup map to use when shifting a base64 string to the left
   left_shift_map: (() ->
     left_map = {}
     for i in [0..63]
       left_map[num_to_base_map[i]] =
-        val: num_to_base_map[i >> 1]
-        carry_val: num_to_base_map[(i >> 1) | (1 << 5)]
-        makes_carry: Boolean(i & 1)
-    return left_map
-  )()
-
-  # A lookup map to use when shifting a base64 string to the left
-  right_shift_map: (() ->
-    right_map = {}
-    for i in [0..63]
-      right_map[num_to_base_map[i]] =
         val: num_to_base_map[i << 1]
         carry_val: num_to_base_map[(i << 1) | 1]
         makes_carry: Boolean(i & (1 << 5))
-    return right_map
+    return left_map
   )()

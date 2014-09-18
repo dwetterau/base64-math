@@ -34,12 +34,12 @@ module.exports =
     val = val1 - val2
     return @toBase64(val)
 
-  # Bitshifts a base 64 number left by 1 (divide by 2)
-  left_shift: (num) ->
+  # Bitshifts a base 64 number right by 1 (divide by 2)
+  right_shift: (num) ->
     has_carry = false
     base64 = ''
-    for i in [num.length - 1...0]
-      val = constants.left_shift_map[num.charAt(i)]
+    for i in [0..num.length].reverse()
+      val = constants.right_shift_map[num.charAt(i)]
       if has_carry
         base64 = val.carry_val + base64
       else
@@ -47,12 +47,12 @@ module.exports =
       has_carry = val.makes_carry
     return base64
 
-  # Bitshifts a base 64 number right by 1 (multiply by 2)
-  right_shift: (num) ->
+  # Bitshifts a base 64 number left by 1 (multiply by 2)
+  left_shift: (num) ->
     has_carry  = false
     base64 = ''
     for i in [0..num.length]
-      val = constants.right_shift_map[num.charAt(i)]
+      val = constants.left_shift_map[num.charAt(i)]
       if has_carry
         base64 += val.carry_val
       else
