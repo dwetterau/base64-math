@@ -50,6 +50,30 @@ module.exports =
     val = val1 / val2
     return @toBase64(val)
 
+  # Calculates the modulo of two base 64 number strings and returns the answer in base 64
+  mod: (num1, num2) ->
+    # TODO: Do this the linear way
+    val1 = @toNumber num1
+    val2 = @toNumber num2
+    val = val1 % val2
+    return @toBase64(val)
+
+  # Returns the gcd of two base 64 number strings in base 64
+  gcd: (num1, num2) ->
+    # Assume that the numbers are well trimmed
+    while num2 != constants.num_to_base_map[0]
+      temp = num2
+      num2 = @mod num1, num2
+      num1 = temp
+    return num1
+
+  # Returns the lcm of two base 64 number strings in base 64
+  lcm: (num1, num2) ->
+    # Note that we assume both numbers are positive
+    top = @multiply(num1, num2)
+    bottom = @gcd(num1, num2)
+    return @divide(top, bottom)
+
   # Compares two base64 number strings. Returns 0 if equal, < 0 if first is smaller,
   # and > 0 if the first is larger
   compare: (num1, num2) ->
