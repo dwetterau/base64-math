@@ -111,4 +111,3 @@ module.exports =
       else
         break
     return num.substring 0, Math.max(index, 1)
-
