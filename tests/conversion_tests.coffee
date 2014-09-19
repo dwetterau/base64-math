@@ -31,6 +31,5 @@ describe 'conversion_tests', () ->
 
   describe 'test full conversion', () ->
     it 'should return the same value as the input when converted both ways', () ->
-      base64_string1 = '2s'
-      console.log Base64.toNumber(base64_string1)
+      base64_string1 = '234s'
       assert.equal Base64.toBase64(Base64.toNumber(base64_string1)), base64_string1

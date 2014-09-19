@@ -34,8 +34,8 @@ module.exports =
     left_map = {}
     for i in [0..63]
       left_map[num_to_base_map[i]] =
-        val: num_to_base_map[i << 1]
-        carry_val: num_to_base_map[(i << 1) | 1]
+        val: num_to_base_map[(i << 1) & 63]
+        carry_val: num_to_base_map[((i << 1) | 1) & 63]
         makes_carry: Boolean(i & (1 << 5))
     return left_map
   )()

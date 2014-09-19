@@ -38,24 +38,39 @@ module.exports =
   right_shift: (num) ->
     has_carry = false
     base64 = ''
-    for i in [0..num.length].reverse()
+    for i in [num.length - 1..0]
       val = constants.right_shift_map[num.charAt(i)]
       if has_carry
         base64 = val.carry_val + base64
       else
         base64 = val.val + base64
       has_carry = val.makes_carry
-    return base64
+    return @trim(base64)
 
   # Bitshifts a base 64 number left by 1 (multiply by 2)
   left_shift: (num) ->
     has_carry  = false
     base64 = ''
-    for i in [0..num.length]
+    for i in [0...num.length]
       val = constants.left_shift_map[num.charAt(i)]
       if has_carry
         base64 += val.carry_val
       else
         base64 += val.val
       has_carry = val.makes_carry
+
+    # If there is still a carry at the end, we need to add on a 1
+    if has_carry
+      base64 += constants.num_to_base_map[1]
     return base64
+
+  # Trims off leading 0's from a base64 representation
+  trim: (num) ->
+    index = num.length
+    for i in [0..num.length - 1].reverse()
+      if num.charAt(i) == 'A'
+        index = i
+      else
+        break
+    return num.substring 0, Math.max(index, 1)
+
